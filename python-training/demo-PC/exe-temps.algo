@@ -1,0 +1,19 @@
+variable nombre : entier = 4561
+variable jour_en_sec : entier <- 86400
+variable heure_en_sec : entier <- 3600
+variable minute_en_sec : entier <- 60
+DEBUT
+jour <- nombre DIV jour_en_sec
+reste = nombre MOD jour_en_sec
+
+heure = reste DIV heure_en_sec
+reste = reste MOD heure_en_sec
+
+minute = reste DIV minute_en_sec
+reste = reste MOD minute_en_sec
+
+seconde = reste
+
+
+ecrire(nombre + " correspond à "jour + " jours " + heure + " heures " + minute + "minutes et " + seconde + "secondes.")
+FIN

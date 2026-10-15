@@ -1,0 +1,23 @@
+"""
+• exo23-Écrire un algorithme demandant à l’utilisateur le nombre de joueurs (max 10
+joueurs). Ensuite, l’algorithme doit demander à l’utilisateur le score de chaque
+joueur. Une fois ceci fini, il faut afficher la moyenne des scores. Faites de même en
+Python
+"""
+
+
+
+"""
+• exo24-Inverser un tableau : soit un tableau T. Saisir ce tableau. Changer de place les
+éléments de ce tableau de façon à ce que le nouveau tableau soit une sorte de miroir
+de l'ancien et afficher le nouveau tableau.
+"""
+
+
+
+"""
+• exo25-À l’aide des boucles, réalisez un algorithme permettant de trier un tableau
+d’entiers dans l’ordre croissant. Mettez-le ensuite en pratique avec le Python.
+"""
+
+

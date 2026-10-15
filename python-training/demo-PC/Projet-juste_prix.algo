@@ -1,0 +1,40 @@
+# Pas full clean
+
+variable continue_game en Booléen
+variable input user en chaine
+variable life en Entier <- 10
+variable price°user en Entier
+
+TantQue continue_game Faire
+    Ecrire("Niveau 1 : 1 - 10")
+    Ecrire("Niveau 2 : 1 - 100")
+    Ecrire("Niveau 3 : 1 - 1000")
+
+    input_user <- lire()
+
+    SelonQue input_user Faire
+        cas "1":
+            mystery_price = random(1,10)
+        cas "2":
+            mystery_price = random(1,100)
+        cas "3":
+            mystery_price = random(1,1000)
+
+    TantQue life > 0 Faire
+
+        SelonQue input_user Faire
+        case "1":
+            price_user <- lire()
+            si price_user < mystery_price alors
+                Ecrire("Le prix est plus grand")
+            sinonsi price_user > mystery_price alors
+                Ecrire("Le prix est plus petit")
+            sinon
+                Ecrire("Félicitation le prix était " + mystery_price)
+        case "2":
+
+        case "3":
+	FinTantQue
+
+
+FinTantQue

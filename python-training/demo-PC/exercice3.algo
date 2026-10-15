@@ -1,0 +1,29 @@
+A = 3
+B = 9
+C = Faux
+D = NON (C)
+E = 9
+
+1. (A > 8)
+False
+
+2. (B = 9)
+True
+
+3. (NON(A=/=3))
+True
+
+4. (NON(C))
+True
+
+5. ((A < B) OU C)
+True
+
+6. NON((A + B =/= 12)
+True
+
+7. ((B = 5) OU ((E > 10) ET (A < 8)))
+False
+
+8. ((((B = 5) OU ((E > 10) ET (A > 8))) OU (A < B) OU C) ET C)
+False

@@ -1,0 +1,5 @@
+DEBUT
+	ecrire('Entez votre nom')
+    lire(nom)
+    ecrire('Vous êtes ' + nom)
+FIN

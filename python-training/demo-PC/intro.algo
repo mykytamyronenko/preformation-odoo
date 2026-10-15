@@ -1,0 +1,6 @@
+# Déclaration
+variable nom : type <- 5
+variable nom : type = 5
+
+# Constante
+constante MACONSTANTE : ENTIER = 5

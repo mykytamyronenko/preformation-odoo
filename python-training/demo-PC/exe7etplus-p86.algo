@@ -1,0 +1,162 @@
+"""
+NOT ACCURATE, was for training
+"""
+
+
+"""
+exo07-Année bissextile (Pseudo-Code + Python)
+Réaliser un petit algorithme qui sur base d’une année donnée va déterminer s’il s’agit d’une année
+bissextile. Une année est bissextile si elle est divisible par 4, mais non divisible par 100.
+Ou si elle estdivisible par 400. (ex: 2020, 1600 bissextiles. 1900 pas bissextile)
+"""
+variable annee : entier = écrire "Entrez une année :"
+DEBUT
+	si (annee MOD 4 egale 0 ET NON(annee MOD 100 égale 0)) OU anne MOD 400 egale 0 alors
+        VRAI
+    sinon
+        FAUX
+	finsi
+FIN
+
+"""
+exo8-Lanceur de balles de tennis (Pseudo-Code + Python)
+(Indice : booleen = bool(int(input("Veuillez insérer : 1 = oui / 0 = non"))
+Réaliser l’algorithme d’un lanceur de balles de tennis. Ce lanceur possède deux états :
+– prêt : permet de savoir si le tennisman est prêt. Il ne faut pas lancer de balles dans le cas contraire
+– panier_vide : permet de savoir s’il y a encore des balles disponibles
+Le lanceur de balle possède l’opération « lancerBalle » qui, vous l’aurez compris, permet de lancer
+une balle.
+"""
+
+variable lancer_balle : boolean = FAUX
+variable pret : boolean = FAUX
+variable panier_vide : boolean = VRAI
+
+DEBUT
+    si pret égale VRAI ET panier_vide égale FAUX alors
+        lancer_balle = VRAI
+    sinon
+        lancer_balle = FAUX
+    finsi
+FIN
+
+"""
+exo09-Distributeur de boissons (Pseudo-Code + Python)
+Réaliser l’algorithme d’un distributeur de boissons. Ce dernier propose plusieurs boissons et
+l’utilisateur choisit celle qu’il désire en entrant le numéro correspondant. Ne pas oublier de vérifier
+s’il y a encore des boissons en stock.
+"""
+
+variable numero_de_boisson : entier = écrire "Entrez le numéro de la boisson : "
+variable quantité_eau = entier = 10
+variable quantité_fanta = entier = 10
+
+DEBUT
+    Selon que numero_de_boisson VAUT
+        VALEUR : 1
+            lire eau
+            quantité_eau égale quantité_eau MOINS 1
+        VALEUR : 2
+            lire fanta
+            quantité_fanta égale quantité_fanta MOINS 1
+        [sinon : ERREUR]
+    FINSQ
+FIN
+
+"""
+exo10-Calculatrice (Pseudo-Code + Python)
+Réaliser l’algorithme d’une calculatrice basique. L’utilisateur
+est invité à saisir un nombre, un opérateur, et un deuxième
+nombre. La calculatrice affiche ensuite le résultat. (Gérer la
+division par 0)
+"""
+
+variable nombre1 : entier = écrire "Entrez le premier nombre : "
+variable operateur : entier = écrire "Entrez l'opérateur (1:+,2:-,3:*,4:/) : "
+variable nombre2 : entier = écrire "Entrez le second nombre : "
+
+
+
+"""
+exo11-Note (Pseudo-Code + Python)
+Ecrire un algorithme qui met l'appréciation par rapport à des
+notes. Ces notes sont comprises entre 0 et 20.
+/!\ Gérer les erreurs : ex : -2; 25
+"""
+
+variable note : entier = écrire "Entrez une note : "
+DEBUT
+    Selon que note VAUT
+        VALEUR : 0
+            lire vous avez 0
+        VALEUR : 1
+            lire vous avez 1
+        VALEUR : 2
+            lire vous avez 2
+        VALEUR : 4
+            lire vous avez 4
+        VALEUR : 5
+            lire vous avez 5
+        VALEUR : 6
+            lire vous avez 6
+        VALEUR : 7
+            lire vous avez 7
+        VALEUR : 8
+            lire vous avez 8
+        VALEUR : 9
+            lire vous avez 9
+        VALEUR : 10
+            lire vous avez 10
+        VALEUR : 11
+            lire vous avez 11
+        VALEUR : 12
+            lire vous avez 12
+        VALEUR : 13
+            lire vous avez 13
+        VALEUR : 14
+            lire vous avez 14
+        VALEUR : 15
+            lire vous avez 15
+        VALEUR : 16
+            lire vous avez 16
+        VALEUR : 17
+            lire vous avez 17
+        VALEUR : 18
+            lire vous avez 18
+        VALEUR : 19
+            lire vous avez 19
+        VALEUR : 20
+            lire vous avez 20
+        [sinon : ERREUR]
+    FINSQ
+FIN
+
+
+
+"""
+exo12-Réalisez un algorithme utilisant le convertisseur de
+secondes, il reçoit deux durées (jours, heures, minutes et
+secondes) et calcule la différence entre ces dernières.
+
+"""
+
+variable nb_jour : entier = écrire "Entrez un nombre de jours : "
+variable nb_heure : entier = écrire "Entrez un nombre d'heure : "
+variable nb_minute : entier = écrire "Entrez un nombre de minutes : "
+variable nb_seconde : entier = écrire "Entrez un nombre seconds : "
+
+variable nb_jour2 : entier = écrire "Entrez un second nombre de jours : "
+variable nb_heure2 : entier = écrire "Entrez un second nombre d'heure : "
+variable nb_minute2 : entier = écrire "Entrez un second nombre de minutes : "
+variable nb_seconde2 : entier = écrire "Entrez un second nombre seconds : "
+
+DEBUT
+    nombre1 egale nb_jour FOIS 86400 PLUS nb_heure * 3600 PLUS nb_minute FOIS 60 PLUS nb_seconde
+    nombre2 egale nb_jour FOIS 86400 PLUS nb_heure * 3600 PLUS nb_minute FOIS 60 PLUS nb_seconde
+
+    si nombre1 est superieur à nombre2 alors
+        resultat égale nombre1 MOINS nombre2
+    sinon
+        resultat égale nombre2 MOINS nombre1
+	finsi
+FIN

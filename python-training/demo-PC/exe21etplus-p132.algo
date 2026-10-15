@@ -1,0 +1,51 @@
+"""
+exo21-Écrire un algorithme qui saisit 6 entiers et les
+stocke dans un tableau, puis affiche le contenu de ce
+tableau une fois qu’il est rempli.
+"""
+
+# plus ou moins
+
+variable number_list : Tableau[] de entiers
+
+Pour i <- 1 à 6 Pas 1 Faire
+		Ecrire Entrez un nombre : 
+        number_list <- ajouter nombre
+	Suivant
+
+lire(number_list)
+
+
+"""
+exo22-BONUS : initialiser un tableau de 10 entiers avec
+les valeurs 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 à
+l’aide d’une boucle. Ensuite, à l’aide d’une boucle
+afficher la valeur de chaque cellule du tableau avec
+l’opération Ecrire().
+"""
+
+
+
+"""
+Exercice bonus:
+"""
+Constante TAILLE = 10
+Variable tab : Tableau[TAILLE] d'Entier
+ nbElem, indice : Entier
+Debut
+ nbElem ← 0
+ indice ← 0
+ tab[nbElem] ← 2
+ nbElem ← nbElem + 1
+
+ Tant Que nbElem < TAILLE Faire
+ tab[nbElem] ← tab[nbElem-1] * 2
+ nbElem ← nbElem + 1
+ FinTQ
+ Tant Que indice < nbElem Faire
+ Ecrire(tab[indice])
+ indice ← indice + 1
+ FinTQ
+Fin
+
+
