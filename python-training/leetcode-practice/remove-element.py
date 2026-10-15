@@ -5,18 +5,35 @@ class Solution(object):
         :type val: int
         :rtype: int
         """
+
+        k = 0
+        j = len(nums) - 1
+
+        while k <= j:
+            if nums[k] == val:
+                nums.remove(nums[k])
+                nums.append(val)
+                j -= 1
+                k -= 1
+            k += 1
+
+        return k
         
+nums = [3,2,2,3]
+val = 3
 
+nums2 = [0,1,2,2,3,0,4,2]
+val2 = 2
 
-# nums1 = [1, 2, 3, 0, 0, 0]
-# m = 3
-# nums2 = [2, 5, 6]
-# n = 3
+solution = Solution()
+k = solution.removeElement(nums, val)
+k2 = solution.removeElement(nums2, val2)
 
-# solution = Solution()
-# solution.removeElement(nums1, m, nums2, n)
+print(k)
+print(nums)
+print(k2)
+print(nums2)
 
-# print(nums1)
 
 
 
