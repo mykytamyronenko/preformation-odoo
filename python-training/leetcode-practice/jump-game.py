@@ -4,7 +4,30 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
+
+        if nums[0] != 0:
+            jumper = nums[0]
+        else: return True
+        destination = nums[-1]
+
+        i = 0
+        j = 1
+
+        while i < jumper:
+            i = 0
+            i += j
+
+            if j >= len(nums):
+                break
+            j += nums[i]
+
+            if nums[i] == destination:
+                return True
+
         return False
+
+
+# commencer par la fin pour voir si un nombre peut atteindre la cible et ainsi de suite
 
 
 nums = [2,3,1,1,4]
