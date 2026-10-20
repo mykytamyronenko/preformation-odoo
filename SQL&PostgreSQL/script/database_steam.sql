@@ -61,7 +61,7 @@ CREATE TABLE games(
     CONSTRAINT uk_title unique (title),
     CONSTRAINT ck_price CHECK (price >= 0::MONEY),
     CONSTRAINT fk_games_publisher FOREIGN KEY (publisher_id)
-        REFERENCES publisher (id) on delete cascade
+        REFERENCES publisher (id)
 );
 
 create TABLE review(
@@ -75,7 +75,7 @@ create TABLE review(
 
     CONSTRAINT pk_review PRIMARY KEY (id),
     CONSTRAINT fk_review_users FOREIGN KEY (users_id)
-        references users (id),
+        references users (id) on delete cascade,
     CONSTRAINT fk_review_games FOREIGN KEY (game_id)
         references games (id) on delete cascade,
     CONSTRAINT ck_rating CHECK (rating BETWEEN 0 and 5)
@@ -1025,7 +1025,8 @@ from games g
 
 -- ### 17. Complete user activity
 
--- Display all users with the number of games they own and the number of reviews they have written.
+-- Display all users with the number of games they own and the numbe
+-- of reviews they have written.
 
 -- Users without games or reviews must still appear.
 
@@ -1084,7 +1085,8 @@ from users u
 
 -- ### 19. Local publisher audiences
 
--- For each publisher, display the number of distinct players who come from the same country as the publisher.
+-- For each publisher, display the number of distinct players who come
+-- from the same country as the publisher.
 
 -- Publishers without matching players must still appear.
 
@@ -1175,7 +1177,8 @@ order by price desc;
 -- * `title`
 -- * `price`
 
--- Do not use `ORDER BY` + `LIMIT`: your query must still work if several games share the highest price.
+-- Do not use `ORDER BY` + `LIMIT`: your query must still work if several games
+-- share the highest price.
 
 -- Expected rows: 1
 
@@ -1232,7 +1235,8 @@ where country = (
 
 -- ### 5. Long gaming sessions
 
--- Display every owned game whose number of hours played is higher than the average number of hours played
+-- Display every owned game whose number of hours played is higher
+-- than the average number of hours played
 -- (across all purchases).
 
 -- Expected columns:
@@ -1422,7 +1426,8 @@ having count(id) > (
 
 -- ### 13. Price compared to the average
 
--- Display every game with its price, the average price of all games and the difference between both.
+-- Display every game with its price, the average price of all games and the difference
+-- between both.
 
 -- Expected columns:
 
@@ -1610,7 +1615,8 @@ select username,
 title,
 hours_played, 
 (select
-round(avg(hours_played),2) from users_games where users_games.game_id = ug.game_id) "game_average_hours"
+round(avg(hours_played),2)
+from users_games where users_games.game_id = ug.game_id) "game_average_hours"
 from users u
 join users_games ug on ug.users_id = u.id
 join games g on g.id = ug.game_id
@@ -1737,7 +1743,8 @@ and not exists (
 
 -- ### 25. Publishers above the average playtime
 
--- Using a CTE (`WITH`), display publishers whose total number of hours played (across all their games)
+-- Using a CTE (`WITH`), display publishers whose total number of hours played
+-- (across all their games)
 -- is higher than the average total number of hours played per publisher.
 
 -- Publishers whose games have never been played count as `0` in the average.
@@ -1780,7 +1787,8 @@ order by total_hours_played desc;
 
 -- ## How to work
 
--- Every exercise must be written **inside a transaction** and **cancelled at the end**, so the data stays identical for the next exercise:
+-- Every exercise must be written **inside a transaction** and **cancelled at the end**,
+-- so the data stays identical for the next exercise:
 
 -- ```sql
 -- BEGIN;
@@ -1795,8 +1803,10 @@ order by total_hours_played desc;
 -- Rules:
 
 -- * Always check your modification with a `SELECT` **before** the `ROLLBACK`.
--- * If a statement fails, the transaction is aborted: every following statement is refused until you run `ROLLBACK`.
--- * No hard-coded `id`: find the ids with a subquery (`(SELECT id FROM users WHERE username = 'Davit')`).
+-- * If a statement fails, the transaction is aborted: every following statement
+-- is refused until you run `ROLLBACK`.
+-- * No hard-coded `id`: find the ids with a subquery
+-- (`(SELECT id FROM users WHERE username = 'Davit')`).
 -- * `RETURNING` displays the rows affected by an `INSERT`, `UPDATE` or `DELETE`:
 
 -- ```sql
@@ -1832,7 +1842,8 @@ rollback;
 
 -- ### 2. Several users at once
 
--- Add these 3 users **in a single statement**, and display their generated `id`, `username` and `created_at`:
+-- Add these 3 users **in a single statement**, and display their generated `id`,
+-- `username` and `created_at`:
 
 -- | username | email           | country |
 -- | -------- | --------------- | ------- |
@@ -1854,6 +1865,9 @@ values ('Link', 'link@test.com', 'Japan'),
 
 select * from users;
 rollback;
+-- id incrémenté malgré le rollback
+
+
 
 -- ---
 
@@ -1876,10 +1890,17 @@ insert into publisher (name, country)
     values ('Supergiant Games', 'USA') returning *;
 
 insert into games (title, price, release_date, publisher_id)
-    values ('Hades II', 29.99, '2025-09-05', 33) returning *;
+    values ('Hades II', 29.99, '2025-09-25',
+    (select id from publisher where name = 'Supergiant Games')
+    ) returning *;
 
 select * from publisher;
 select * from games;
+
+select g.title, g.price, p.country, p.name
+from games g
+    join publisher p on g.publisher_id = p.id
+where g.title = 'Hades II';
 
 rollback;
 
@@ -1887,7 +1908,8 @@ rollback;
 
 -- ### 4. A profile for Tom
 
--- Tom has no profile. Create one with the bio `Counter Strike addict` and the birth date `1999-12-24`.
+-- Tom has no profile. Create one with the bio `Counter Strike addict`
+-- and the birth date `1999-12-24`.
 
 -- Constraint: use `INSERT ... SELECT` (no `VALUES`).
 
@@ -1896,8 +1918,18 @@ rollback;
 BEGIN;
 select * from profile;
 insert into profile (bio, dob, users_id)
-    select 'Counter Strike addict', '1999-12-24', id from users where username = 'Tom' returning *;
+select 'Counter Strike addict', '1999-12-24', id from users where username = 'Tom' returning *;
 select * from profile;
+
+select
+    u.username,
+    p.bio,
+    p.avatar,
+    p.dob
+from users u
+    join profile p on u.id = p.users_id
+where u.username = 'Tom';
+
 ROLLBACK;
 
 -- ---
@@ -1919,9 +1951,59 @@ ROLLBACK;
 
 -- Question: why one transaction per insertion?
 
+-- a) A user named `Al`
 begin;
-insert into users (username)
-values ('Al') returning *;
+insert into users (username, email)
+values ('Al', 'alb@alb.com') returning *;
+ROLLBACK; -- contraintre username Longueur >= 3
+
+-- b) A user with the email `albert.test.com`
+begin;
+insert into users (username, email, country)
+values ('Albert', 'albert.test.com', 'Belgium') returning *;
+ROLLBACK; -- format email
+
+-- c) A second user named `Davit`
+BEGIN;
+INSERT INTO users (username, email, country)
+VALUES ('Davit', 'davit@test.com', 'Belgium'); -- Unique constraint
+ROLLBACK;
+
+-- d) A game that costs -10€
+BEGIN;
+INSERT INTO games (title, price, publisher_id, release_date)
+VALUES ('Severed steel', -10, 1, '2020-01-01'); -- check price
+ROLLBACK;
+
+-- e) A review with a rating of 6
+BEGIN;
+INSERT INTO review (users_id, game_id, rating, comment)
+VALUES (1, 3, 6, 'Super'); -- ck_reviews_rating_range
+ROLLBACK;
+
+-- f) A purchase for the user with `id` 999
+BEGIN;
+INSERT INTO users_games (users_id, game_id, hours_played, purchase_date)
+VALUES (999, 1, 0, CURRENT_DATE); -- fk_user_games_users
+ROLLBACK;
+
+-- g) A user inserted with the `id` 100
+BEGIN;
+INSERT INTO users (id, username, email, country)
+VALUES (100, 'Quentin', 'quentin@test.com', 'Belgium');
+-- DETAIL: Column "id" is an identity column defined as GENERATED ALWAYS.
+ROLLBACK;
+
+-- h) Davit buys Elden Ring (again)
+BEGIN;
+INSERT INTO users_games (users_id, game_id, hours_played, purchase_date)
+VALUES (1, 1, 0, CURRENT_DATE);
+ROLLBACK;
+
+-- i) A review with the comment `Wow`
+BEGIN;
+INSERT INTO review(users_id, game_id, rating, comment)
+VALUES (1, 1, 5, 'Wow'); -- ck_reviews_comment_length -- perso pas mis
 ROLLBACK;
 
 -- ---
@@ -1936,9 +2018,12 @@ ROLLBACK;
 
 begin;
 select * from users;
+
 update users
 set country = 'Ireland'
-where username = 'Tom' returning *;
+where username = 'Mike'
+returning old.*, new.*;
+
 select * from users;
 rollback;
 
@@ -1946,17 +2031,37 @@ rollback;
 
 -- ### 7. FromSoftware sale
 
--- All FromSoftware games are 20% off. Round the new prices to 2 decimals and display the titles and new prices.
+-- All FromSoftware games are 20% off. Round the new prices to 2 decimals and display the 
+-- itles and new prices.
 
 -- Expected: 4 rows updated.
+
+begin;
+
+update games
+set price = round(price::numeric * 0.8, 2)::money
+where publisher_id = (select id from publisher where name = 'FromSoftware')
+returning title, price;
+
+rollback;
 
 -- ---
 
 -- ### 8. Inflation
 
--- Games released since 2022 that cost more than 50€ get 10% more expensive (rounded to 2 decimals).
+-- Games released since 2022 that cost more than 50€ get 10% more expensive
+-- (rounded to 2 decimals).
 
 -- Expected: 3 rows updated.
+
+begin;
+
+update games
+set price = round(price::numeric * 1.1, 2)::money
+where release_date >= '2022-01-01' and price::numeric > 50
+returning title, release_date, price "new_price", old.price "old_price";
+
+rollback;
 
 -- ---
 
@@ -1967,6 +2072,24 @@ rollback;
 -- Display Davit's total hours before and after the update, in the same transaction.
 
 -- Expected: 8 rows updated, total from 1540 to 1940.
+
+begin;
+
+select
+sum(hours_played) before_played
+from users_games
+where users_id = (select id from users where username = 'Davit');
+
+update users_games
+set hours_played = hours_played + 50
+where users_id = (select id from users where username = 'Davit');
+
+select
+sum(hours_played) after_update
+from users_games
+where users_id = (select id from users where username = 'Davit');
+
+rollback;
 
 -- ---
 
@@ -1980,6 +2103,18 @@ rollback;
 -- The existing values must not change.
 
 -- Expected: 2 rows updated.
+
+begin;
+
+update profile
+set
+    bio = coalesce(bio, 'no bio yet'),
+    avatar = coalesce(avatar, 'default.png')
+where bio is null or avatar is null
+returning users_id, bio, avatar;
+
+rollback;
+
 
 -- ---
 
@@ -1997,15 +2132,44 @@ rollback;
 
 -- Expected: 14 rows updated.
 
+BEGIN;
+
+UPDATE games
+SET price = CASE
+    WHEN price < 30::money THEN price + 5::money
+    WHEN price <= 60::money THEN ROUND(price::numeric * 0.9, 2)::money
+    ELSE 59.99::money
+END
+WHERE price > 0::money
+RETURNING title, price AS new_price;
+
+ROLLBACK;
+
 -- ---
 
 -- ### 12. Verified owners
 
--- Add ` (verified owner)` at the end of the comment of every review whose author owns the game **and** played it for at least 100 hours.
+-- Add ` (verified owner)` at the end of the comment of every
+-- review whose author owns the game **and** played it for at least 100 hours.
 
 -- Expected: 17 rows updated.
 
 -- ---
+
+begin;
+
+update review r
+set comment = r.comment || ' (verified owner)'
+where exists (
+    select 1
+    from users_games ug
+    where ug.users_id = r.users_id
+    and ug.game_id = r.game_id
+    and ug.hours_played >= 100
+)
+returning r.users_id, r.game_id, r.comment;
+
+rollback;
 
 -- ### 13. The forgotten WHERE
 
@@ -2017,6 +2181,12 @@ rollback;
 -- ```
 
 -- What happened? Cancel, then check that the data is intact.
+begin;
+UPDATE users
+SET country = 'Belgium';
+select country, count(id) from users group by country;
+rollback;
+select country, count(id) from users group by country;
 
 -- Expected: 15 rows updated.
 
@@ -2030,6 +2200,15 @@ rollback;
 
 -- Expected: 1 row deleted.
 
+begin;
+
+delete from review
+where users_id = (select id from users where username = 'Chris')
+    and game_id = (select id from games where title = 'League of Legends')
+returning *;
+
+rollback;
+
 -- ---
 
 -- ### 15. Reviews from non-owners
@@ -2039,6 +2218,19 @@ rollback;
 -- Constraint: the query must work for any user and any game (no names, no ids).
 
 -- Expected: 1 row deleted.
+
+begin;
+
+delete from review r
+where not exists (
+    select 1
+    from users_games ug
+    where ug.users_id = r.users_id
+    and ug.game_id = r.game_id
+)
+returning *;
+
+rollback;
 
 -- ---
 
@@ -2053,6 +2245,24 @@ rollback;
 
 -- ---
 
+begin;
+
+select
+    (select count(*) from users) users,
+    (select count(*) from users_games) users_games,
+    (select count(*) from review) review;
+
+delete from users
+ where username = 'Lina';
+
+select
+    (select count(*) from users) users,
+    (select count(*) from users_games) users_games,
+    (select count(*) from review) review;
+
+rollback;
+
+
 -- ### 17. Deleting publishers
 
 -- a) Delete Valve. What happens? Why?
@@ -2062,11 +2272,47 @@ rollback;
 
 -- ---
 
+begin;
+
+delete from publisher where name = 'Valve' returning *;
+
+rollback;
+
+
+begin;
+
+delete from publisher where name = 'Ubisoft' returning *;
+
+rollback;
+
 -- ### 18. Ghost accounts
 
 -- Delete the users who never bought **nor** reviewed anything.
 
 -- Expected: 1 row deleted.
+
+begin;
+
+delete from users u
+where not exists (select 1 from users_games ug where ug.users_id = u.id)
+ and not exists (select 1 from review r where r.users_id = u.id)
+returning *;
+
+rollback;
+
+
+
+begin;
+
+delete from users u
+where id not in (
+    select users_id from users_games
+    union
+    select users_id from review
+    )
+returning *;
+
+rollback;
 
 -- ---
 
@@ -2075,6 +2321,14 @@ rollback;
 -- Delete the games that have never been purchased.
 
 -- Expected: 1 row deleted.
+
+begin;
+
+delete from games g
+where not exists (select 1 from users_games ug where ug.game_id = g.id)
+returning *;
+
+rollback;
 
 -- ---
 
@@ -2087,25 +2341,68 @@ rollback;
 -- * What is the difference between `DELETE FROM reviews;` and `TRUNCATE TABLE reviews;`?
 -- * Can a `TRUNCATE` be cancelled in PostgreSQL?
 
+begin;
+truncate table review;
+select count(*) from review;
+rollback;
+select count(*) from review;
+
 -- ---
 
 -- ## Level 4 — INSERT ... SELECT
 
 -- ### 21. A profile for everyone
 
--- Create a profile for every user who doesn't have one yet, with the bio `Hello, I am <username>`.
+-- Create a profile for every user who doesn't have one yet,
+-- with the bio `Hello, I am <username>`.
 
 -- Check that no user is left without a profile.
 
 -- Expected: 7 rows inserted.
 
+begin;
+
+insert into profile (users_id, bio, dob)
+select id, 'Hello, I am ' || username, CURRENT_DATE
+from users
+where id not in (select users_id from profile)
+returning users_id, bio;
+
+select count(*) from users u
+left join profile p on p.users_id = u.id
+where p.id is null;
+
+rollback;
+
 -- ---
 
 -- ### 22. Belgian gift
 
--- Every Belgian user receives `Portal 2` today, with 0 hours played, unless they already own it.
+-- Every Belgian user receives `Portal 2` today, with 0 hours played,
+-- unless they already own it.
 
 -- Expected: 4 rows inserted.
+
+begin;
+
+insert into users_games (users_id, game_id, hours_played, purchase_date)
+select
+u.id,
+(select id from games where title = 'Portal 2'),
+0,
+current_date
+from users u
+where u.country = 'Belgium'
+and not exists (
+    select 1
+    from users_games ug
+    join games g on g.id = ug.game_id
+    where ug.users_id = u.id
+    and g.title = 'Portal 2'
+)
+returning *;
+
+rollback;
 
 -- ---
 
@@ -2113,13 +2410,40 @@ rollback;
 
 -- In a transaction:
 
--- 1. create a table `game_stats` (`game_id` as primary key, `title`, `total_players`, `total_hours`, `avg_rating`)
--- 2. fill it with **one** `INSERT ... SELECT` covering all games (`total_hours` = 0 for games never played)
+-- 1. create a table `game_stats`
+-- (`game_id` as primary key, `title`, `total_players`, `total_hours`, `avg_rating`)
+-- 2. fill it with **one** `INSERT ... SELECT` covering all games
+-- (`total_hours` = 0 for games never played)
 -- 3. display it, sorted by total hours
 
 -- After the `ROLLBACK`, try `SELECT * FROM game_stats;`. What happens?
 
 -- Expected: 19 rows inserted.
+
+begin;
+-- création de la table
+create table game_stats (
+    game_id int,
+    title varchar(100),
+    total_players int,
+    total_hours int,
+    avg_rating numeric(3,2),
+    constraint pk_game_stats primary key (game_id)
+);
+-- Insertion des statistiques
+insert into game_stats -- toutes les colonnes
+select
+    g.id,
+    g.title,
+    (select count(*) from users_games ug where ug.game_id = g.id),
+    (select coalesce(sum(ug.hours_played), 0) from users_games ug where ug.game_id = g.id),
+    (select round(avg(r.rating), 2) from review r where r.game_id = g.id)
+from games g;
+
+select * from game_stats order by total_hours desc;
+rollback;
+
+select * from game_stats; -- la table n'existe plus
 
 -- ---
 

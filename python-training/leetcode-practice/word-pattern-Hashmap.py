@@ -20,16 +20,16 @@ class Solution(object):
 pattern = "abba"
 s = "dog cat cat dog"
 
-pattern2 = "abba"
-s2 = "dog cat cat fish"
+# pattern2 = "abba"
+# s2 = "dog cat cat fish"
 
-pattern3 = "aaaa"
-s3 = "dog cat cat dog"
+# pattern3 = "aaaa"
+# s3 = "dog cat cat dog"
 
 solution = Solution()
 solution.wordPattern(pattern,s)
-solution.wordPattern(pattern2,s2)
-solution.wordPattern(pattern3,s3)
+# solution.wordPattern(pattern2,s2)
+# solution.wordPattern(pattern3,s3)
 
 
 """
