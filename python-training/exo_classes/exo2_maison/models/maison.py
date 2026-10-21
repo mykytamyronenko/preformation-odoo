@@ -15,28 +15,28 @@ class maison:
 
     @property
     def rue(self) -> str:
-        return self._rue
+        return self.__rue
 
     @rue.setter
     def rue(self, nouvelle_rue: str) -> None:
-        self._rue = nouvelle_rue
+        self.__rue = nouvelle_rue
 
     @property
     def numero(self) -> int:
-        return self._numero
+        return self.__numero
 
     @numero.setter
     def numero(self, nouveau_numero: int) -> None:
-        self._numero = nouveau_numero
+        self.__numero = nouveau_numero
 
 
     @property
     def nb_fenetre(self) -> int:
-        return self._nb_fenetre
+        return self.__nb_fenetre
 
     @nb_fenetre.setter
     def nb_fenetre(self, nouveau_nb_fenetre: str) -> None:
-        self._nb_fenetre = nouveau_nb_fenetre
+        self.__nb_fenetre = nouveau_nb_fenetre
 
 
     def to_string(self) -> str:

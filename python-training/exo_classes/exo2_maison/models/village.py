@@ -11,20 +11,20 @@ class village:
 
     @property
     def nom(self) -> str:
-        return self._nom
+        return self.__nom
 
     @nom.setter
     def nom(self, nouveau_nom: str) -> None:
-        self._nom = nouveau_nom
+        self.__nom = nouveau_nom
 
 
     @property
     def nb_maison(self) -> int:
-        return self._nb_maison
+        return self.__nb_maison
 
     @nb_maison.setter
     def nb_maison(self, nouveau_nb_maison: int) -> None:
-        self._nb_maison = nouveau_nb_maison
+        self.__nb_maison = nouveau_nb_maison
 
 
     def construire_maison(self, maison: int) -> None:
@@ -37,7 +37,7 @@ class village:
 
 
     def to_string(self) -> str:
-        return f"Ce village se nomme '{self.nom}' et a {self.nb_maison} maison(s)."
+        return f"Ce village se nomme '{self.nom}' et a {self.nb_maison} maisons."
 
     # def liste_des_maisons(self) -> str:
     #     for i in range(len(self.num_des_maisons)):
