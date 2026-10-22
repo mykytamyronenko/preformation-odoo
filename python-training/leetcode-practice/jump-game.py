@@ -54,6 +54,7 @@ class Solution(object):
         max_reach = 0
 
         for i in range(len(nums)):
+            print("===")
             print(f"i : {i}")
             print(f"max_reach1 : {max_reach}")
 
