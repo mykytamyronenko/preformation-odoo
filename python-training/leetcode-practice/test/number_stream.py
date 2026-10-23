@@ -18,174 +18,62 @@ if the length matches the digit value than return true
 else continue until the string has been fully traversed
 """
 
+# NOT FINISHED
+
 def NumberStream(stream):
     if len(stream) == 1:
         return False
-
-    tmp = stream[0]
+    count = 0
 
     for i in range(len(stream)):
-        if not tmp:
-            tmp += stream[i]
+        count += 1
 
-        if stream[i] == tmp[0]:
-            tmp += stream[i]
-        else:
-            tmp = ""
+        if count == int(stream[i-1]) and i != 0:
+            return "true"
 
-        if len(tmp) == i:
-            return True
+        if stream[i] != stream[i-1] and stream[i-1] == stream[-1]:
+            count = 0
 
-    return False
-
-
-
-
-
+    return "false"
 
 print(NumberStream("5556293383563665")) # False
 print(NumberStream("5788888888882339999")) # True
 print(NumberStream("6539923335")) # True
-
-
-
-
-
-
-
-    #     if int(stream[i]) == 1:
-    #         return False
-    #     len_test = 0
-    #     j = i+1
-    #     # for j in range(i+1,int(stream[i])+i,1):
-    #     while True:
-    #         print("===========")
-    #         print(len_test)
-    #         print(stream[i])
-    #         print(stream[j])
-    #         if int(stream[i]) == int(stream[j]):
-    #             len_test += 1
-    #             if len_test >= int(stream[i]):
-    #                 return True
-    #             j += 1
-    #             continue
-    #         else:
-    #             break
-
-    # return False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def NumberStream(str):
-#     if len(str) == 1:
-#         return "false"
-
-#     temp = str[0]
-
-#     for x in range(1, len(str)):
-#         if not temp:
-#             temp += str[x]
-#             continue
-
-#         # If values are the same, add it to temp string
-#         if str[x] == temp[0]:
-#             temp += str[x]
-#         else:
-#             # Clear the temp string
-#             temp = ""
-
-#         # Condition to analyze length of temp string
-#         # If length matches the consecutive values, it is valid
-#         if len(temp) > 1 and len(temp) + 48 == ord(temp[0]):
-#             return "true"
-
-#     return "false"
-
-
-# print(NumberStream("5556293383563665"))  # false
-# print(NumberStream("5788888888882339999"))  # true
-# print(NumberStream("6539923335"))  # true
+print(NumberStream("2566848658999999999849")) # True
+print(NumberStream("24949892")) # False
+print(NumberStream("225958596")) # True
+print(NumberStream("22")) # True
+print(NumberStream("33")) # False
+print(NumberStream("333")) # True
+
+print("\n\n")
+
+def NumberStream2(str):
+    if len(str) == 1:
+        return "false"
+
+    temp = str[0]
+
+    for x in range(1, len(str)):
+        if not temp:
+            temp += str[x]
+            continue
+
+        # If values are the same, add it to temp string
+        if str[x] == temp[0]:
+            temp += str[x]
+        else:
+            # Clear the temp string
+            temp = ""
+
+        # Condition to analyze length of temp string
+        # If length matches the consecutive values, it is valid
+        if len(temp) > 1 and len(temp) + 48 == ord(temp[0]):
+            return "true"
+
+    return "false"
+
+
+print(NumberStream2("5556293383563665"))  # false
+print(NumberStream2("5788888888882339999"))  # true
+print(NumberStream2("6539923335"))  # true
