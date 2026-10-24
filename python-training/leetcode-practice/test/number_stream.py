@@ -18,23 +18,41 @@ if the length matches the digit value than return true
 else continue until the string has been fully traversed
 """
 
-# NOT FINISHED
-
 def NumberStream(stream):
     if len(stream) == 1:
         return False
-    count = 0
+    tmp = stream[0]
 
-    for i in range(len(stream)):
-        count += 1
+    for i in range(1,len(stream)):
+        if stream[i] == stream[i-1]:
+            tmp += stream[i]
+        else:
+            tmp = stream[i]
 
-        if count == int(stream[i-1]) and i != 0:
-            return "true"
+        if len(tmp) == int(stream[i]):
+            return True
 
-        if stream[i] != stream[i-1] and stream[i-1] == stream[-1]:
-            count = 0
+    return False
 
-    return "false"
+# print(NumberStream("5556293383563665")) # False
+# print(NumberStream("5788888888882339999")) # True
+# print(NumberStream("6539923335")) # True
+
+# print("\n\n")
+
+# def NumberStream(stream):
+#     count = 1
+
+#     for i in range(1,len(stream)):
+#         if stream[i] == stream[i-1]:
+#             count += 1
+#         else:
+#             count = 1
+
+#         if int(stream[i]) <= count:
+#             return "true"
+
+#     return "false"
 
 print(NumberStream("5556293383563665")) # False
 print(NumberStream("5788888888882339999")) # True
@@ -45,35 +63,37 @@ print(NumberStream("225958596")) # True
 print(NumberStream("22")) # True
 print(NumberStream("33")) # False
 print(NumberStream("333")) # True
+print(NumberStream("123")) # False
+print(NumberStream("2")) # False
 
-print("\n\n")
+# print("\n\n")
 
-def NumberStream2(str):
-    if len(str) == 1:
-        return "false"
+# def NumberStream2(str):
+#     if len(str) == 1:
+#         return "false"
 
-    temp = str[0]
+#     temp = str[0]
 
-    for x in range(1, len(str)):
-        if not temp:
-            temp += str[x]
-            continue
+#     for x in range(1, len(str)):
+#         if not temp:
+#             temp += str[x]
+#             continue
 
-        # If values are the same, add it to temp string
-        if str[x] == temp[0]:
-            temp += str[x]
-        else:
-            # Clear the temp string
-            temp = ""
+#         # If values are the same, add it to temp string
+#         if str[x] == temp[0]:
+#             temp += str[x]
+#         else:
+#             # Clear the temp string
+#             temp = ""
 
-        # Condition to analyze length of temp string
-        # If length matches the consecutive values, it is valid
-        if len(temp) > 1 and len(temp) + 48 == ord(temp[0]):
-            return "true"
+#         # Condition to analyze length of temp string
+#         # If length matches the consecutive values, it is valid
+#         if len(temp) > 1 and len(temp) + 48 == ord(temp[0]):
+#             return "true"
 
-    return "false"
+#     return "false"
 
 
-print(NumberStream2("5556293383563665"))  # false
-print(NumberStream2("5788888888882339999"))  # true
-print(NumberStream2("6539923335"))  # true
+# print(NumberStream2("5556293383563665"))  # false
+# print(NumberStream2("5788888888882339999"))  # true
+# print(NumberStream2("6539923335"))  # true
